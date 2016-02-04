@@ -1,32 +1,60 @@
 <!DOCTYPE html>
 <html ng-app="myApp" lang="en-US">
 <head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet">
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Paytone+One|Gochi+Hand|Material+Icons|Khula:400,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="main.css">
 </head>
 <body ng-controller="MainCtrl">
-  <h1>This is my first angular app</h1>
-  <input type="text"></input>
-  <button>Search!</button>
-  <div>
-    <div ng-cloak>
-      <md-content layout="row" layout-align="center" layout-wrap>
-        <md-card flex="nogrow" style="width: 400px" ng-repeat="drblShot in drblShots">
-          <img ng-src="{{drblShot.images.normal}}" class="md-card-image" alt="Washed Out">
-          <md-card-content>
-            <h2 class="md-title">{{drblShot.title}}</h2>
-          </md-card-content>
-        </md-card>
-      </md-content>
+  <div layout="column" flex class= "main-header" layout-align="center center">
+    <div>
+      <h1 class="logo">inspiiire</h1>
     </div>
-    <ul>
-      <li ng-repeat="bhncProject in bhncProjects.projects">
-        <a ng-href="{{bhncProject.url}}" target="_blank">
-          <img ng-src="{{bhncProject.covers['404']}}"/>
-        </a>
-      </li>
-    </ul>
+    <div style="text-align: center" layout="row">
+      <md-input-container md-no-float class="md-block" style="width:400px">
+        <input type="text" placeholder="Find inspiration across different platforms..." ng-required="false">
+      </md-input-container>
+      <md-button class="md-fab" aria-label="search">
+        <md-icon md-font-set="material-icons">search</md-icon>
+      </md-button>
+    </div>
+  </div>
 
+  <div class="results-grid light-background" ng-cloak>
+    <md-content class="light-background" layout="row" layout-align="center" layout-wrap>
+      <div class="result-card animate-repeat" ng-repeat="result in results">
+        <md-card layout-margin flex="nogrow" style="width: 400px">
+          <md-card-header class="padding-m">
+            <md-card-avatar>
+              <a href="{{result.user.url}}" target="_blank">
+                <img class="md-user-avatar" ng-src="{{result.user.avatarUrl}}" alt="{{result.user.name}}"/>
+              </a>
+            </md-card-avatar>
+            <md-card-header-text>
+              <span class="md-title truncate"><a href="{{result.user.url}}" target="_blank">{{result.user.name}}</a></span>
+              <span class="md-subhead truncate"><a href="{{result.project.url}}" target="_blank">{{result.project.name}}</a></span>
+            </md-card-header-text>
+            <div layout = "column" layout-alight="center">
+              <img class="corner-logo" ng-src="img/{{result.source.name}}-grey.png" layout-alight="center">
+              <span class="stats-text font-sm"><md-icon class="font-m stats-icon" md-font-set="material-icons">favorite</md-icon>{{result.project.likesCount}}</span>
+            </div>
+          </md-card-header>
+          <div>
+          <a href="{{result.project.url}}" target="_blank">
+            <img ng-src="{{result.project.imageUrl}}" class="md-card-image" alt="{{result.project.name}}">
+            <div></div>
+          </a>
+        </div>
+        </md-card>
+      </div>
+    </md-content>
+    <div class="padding-m" layout="row" layout-align="center">
+      <md-button class="md-fab" aria-label="get_app" ng-click="loadMore()">
+        <md-icon md-font-set="material-icons">get_app</md-icon>
+      </md-button>
+    </div>
   </div>
   <!-- Angular Material requires Angular.js Libraries -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
